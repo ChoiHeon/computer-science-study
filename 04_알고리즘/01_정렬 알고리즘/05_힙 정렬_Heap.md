@@ -81,15 +81,15 @@ class Heap:
 
 # Test
 heap = Heap()
-input_data = [10, 20, 3, 5, 1, 2, 9, 5]
-output_data = []
+arr = [10, 20, 3, 5, 1, 2, 9, 5]
+sorted_arr = []
 
-for i in [10, 20, 3, 5, 1, 2, 9, 5]:
+for i in arr:
     heap.push(i)
 
-for _ in range(len(input_data)):
-    output_data.append(heap.pop())
+for _ in range(len(arr)):
+    sorted_arr.append(heap.pop())
 
-print(output_data)  # expected output: [1, 2, 3, 5, 5, 9, 10, 20]
+print(sorted_arr)  # expected output: [1, 2, 3, 5, 5, 9, 10, 20]
 ```
 
