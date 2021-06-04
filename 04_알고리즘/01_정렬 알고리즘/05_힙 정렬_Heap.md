@@ -90,6 +90,91 @@ for i in arr:
 for _ in range(len(arr)):
     sorted_arr.append(heap.pop())
 
-print(sorted_arr)  # expected output: [1, 2, 3, 5, 5, 9, 10, 20]
+print(sorted_arr)
 ```
 
+```
+# output
+[1, 2, 3, 5, 5, 9, 10, 20]
+```
+
+<br>
+
+```c++
+void sort(int arr[], int n) {
+	int* heap = new int[n];
+	
+	// 힙 삽입
+	for (int i = 0; i < n; i++) {
+		heap[i] = arr[i];
+
+		int child = i;
+		while (child != 0) {
+			int parent = child / 2;
+
+			if (heap[parent] < heap[child])
+				break;
+
+			swap(heap[parent], heap[child]);
+			child = parent;
+		}
+	}
+
+	
+
+	// 힙 제거
+	for (int i = 0; i < n; i++) {
+		arr[i] = heap[0];
+
+		int parent = 0;
+		int heap_size = n - i - 1;
+		heap[0] = heap[heap_size];
+
+		while (true) {
+			int child_1 = parent * 2 + 1;
+			int child_2 = parent * 2 + 2;
+			int target = 0;
+
+			if (heap_size <= child_1)
+				break;
+
+			if (child_2 < heap_size && heap[child_1] > heap[child_2])
+				target = child_2;
+			else
+				target = child_1;
+
+			if (heap[parent] > heap[target]) {
+				swap(heap[parent], heap[target]);
+				parent = target;
+			}
+			else {
+				break;
+			}
+		}
+	}
+    
+    delete[] heap;
+}
+
+
+int main() {
+	int arr_count = 10;
+	int arr[10] = { 10, 30, 40, 50, 20, 1, 0, 4, 11, 3 };
+
+	sort(arr, arr_count);
+
+	for (int i = 0; i < arr_count; i++)
+		cout << arr[i] << ' ';
+	cout << endl;
+
+	return 0;
+}
+```
+
+```
+// output
+0 1 3 4 10 11 20 30 40 50
+```
+
+* 정렬 시작시 임시로 힙 배열을 생성합니다.
+* 함수 종료시 힙 배열 메모리를 해제합니다.

@@ -133,8 +133,12 @@ for i in arr:
 for _ in len(arr):
     sorted_arr.append(heap.pop())
 
-print(sorted_arr)  # expected output: [1, 2, 3, 5, 5, 9, 10, 20]
+print(sorted_arr) 
 ```
 
+```
+// output
+[1, 2, 3, 5, 5, 9, 10, 20]
+```
 
-
+<br>

@@ -40,23 +40,69 @@
 
 # Example
 
-```c++
-int arr[7] = { 8, 3, 5, 1, 9, 0, 4 }
-int n = 7
+**[C++]**
 
-for (int i = 1; i < n; i++) {
-    int key = arr[i];
-    
-    for (int j = i-1; j >= 0; j--) {
-        if (arr[i] <= arr[j]) {
-            for (int k = i; k > j; k--)
-				arr[k] = arr[k-1];
-			
-          	arr[j] = key;
-        }
-    }
+```c++
+void sort(int arr[], int n) {
+	for (int i = 1; i < n; i++) {
+		int key = arr[i];
+		int j = i - 1;
+
+		while (0 <= j && key < arr[j]) {
+			arr[j+1] = arr[j];
+			j--;
+		}
+
+		arr[j+1] = key;
+	}
 }
 
-std::cout << arr  // expected output: [0, 1, 3, 4, 5, 8, 9]
+
+int main() {
+	int arr_count = 10;
+	int arr[10] = { 10, 30, 40, 50, 20, 1, 0, 4, 11, 3 };
+	
+    // 삽입 정렬
+	sort(arr, arr_count);
+
+    // 배열 출력
+	for (int i = 0; i < arr_count; i++)
+		cout << arr[i] << ' ';
+	cout << endl;
+
+	return 0;
+}
+```
+
+``` 
+// output
+0 1 3 4 10 11 20 30 40 50
+```
+
+<br>
+
+**[Python]**
+
+```python
+def sort(arr, n):
+    for i in range(1, n):
+        key = arr[i]
+        j = i-1
+        while 0 <= j and arr[j] > key:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+
+
+n = 7
+arr = [4, 0, 3, 7, 8, 2, 1]
+
+sort(arr, n)
+print(arr)
+```
+
+```
+# output
+[0, 1, 2, 3, 4, 7, 8]
 ```
 

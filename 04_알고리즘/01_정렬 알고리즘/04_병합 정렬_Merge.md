@@ -84,3 +84,75 @@ print(sorted_arr)  # output: [10, 12, 13, 15, 20, 21, 22, 25]
 * 재귀를 이용한 병합 정렬입니다.
 * 배열의 길이가 1이 될 때까지 분할합니다.
 * 분할한 배열을 병합해 반환하는 과정을 재귀적으로 반복합니다.
+
+<br>
+
+```c++
+void sort(int arr[], int left, int right) {
+	if (left == right)
+		return;
+
+	int mid = (left + right) / 2;
+
+    // 분할
+	sort(arr, left, mid);
+	sort(arr, mid + 1, right);
+
+    // 정복
+	int i = left;
+	int j = mid + 1;
+	int k = 0;
+	int* temp = new int[right - left + 1];
+
+	while (i <= mid && j <= right) {
+		if (arr[i] < arr[j]) {
+			temp[k] = arr[i];
+			i++;
+		}
+		else {
+			temp[k] = arr[j];
+			j++;
+		}
+
+		k++;
+	}
+
+	if (mid < i) {
+		while (j <= right) {
+			temp[k] = arr[j];
+			j++;
+			k++;
+		}
+	}
+	else if (right < j) {
+		while (i <= mid) {
+			temp[k] = arr[i];
+			i++;
+			k++;
+		}
+	}
+
+	for (int t = 0; t < k; t++)
+		arr[left + t] = temp[t];
+
+	delete[] temp;
+}
+
+
+int main() {
+	int arr_count = 10;
+	int arr[10] = { 10, 30, 40, 50, 20, 1, 0, 4, 11, 3 };
+
+	sort(arr, 0, arr_count - 1);
+
+	for (int i = 0; i < arr_count; i++)
+		cout << arr[i] << ' ';
+	cout << endl;
+
+	return 0;
+}
+```
+
+* 임시로 동적 할당 배열(temp)를 생성한 뒤, 정렬한 값을 저장합니다.
+* 함수 종료 전에 temp의 값을 복사한 다음, 메모리를 해제합니다.
+* 정렬할 배열과 같은 크기의 배열을 전역 변수로 선언한다면, 동적으로 임시 배열을 생성할 필요없이 정렬할 수 있습니다.

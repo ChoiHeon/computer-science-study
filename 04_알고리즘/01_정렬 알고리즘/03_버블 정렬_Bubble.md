@@ -38,15 +38,55 @@
 
 ## Example
 
+**[Python]**
+
 ``` python
 n = 7
 arr = [0, 4, 3, 7, 8, 2, 1]
 
-for i in range(n-1, 1, -1):  # n, n-1, ... , 2
-    for j in range(1, i):  # 1, 2, ... , i-1, i
+for i in range(n-1, 0, -1): # n, n-1, ... , 1
+    for j in range(i):  	# 0, 1, 2, ... , i-1, i
         if arr[j] > arr[j + 1]:
             arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
-print(arr)  # expected output: [0, 1, 2, 3, 4, 7, 8]
+print(arr)  
+```
+
+```
+# output
+[0, 1, 2, 3, 4, 7, 8]
+```
+
+<br>
+
+**[C++]**
+
+```c++
+void sort(int arr[], int n) {
+	for (int i = n-1; 0 < i; i--) {
+		for (int j = 0; j < i; j++)
+			if (arr[j] > arr[j + 1])
+				swap(arr[j], arr[j + 1]);
+	}
+}
+
+
+int main() {
+	int arr_count = 10;
+	int arr[10] = { 10, 30, 40, 50, 20, 1, 0, 4, 11, 3 };
+	
+	sort(arr, arr_count);
+
+	for (int i = 0; i < arr_count; i++)
+		cout << arr[i] << ' ';
+	cout << endl;
+
+	return 0;
+}
+```
+
+```
+// output
+0 1 3 4 10 11 20 30 40 50
 ```
 
