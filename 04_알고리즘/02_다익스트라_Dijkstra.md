@@ -4,7 +4,7 @@ Dijkstra 알고리즘은 음의 가중치가 없는 그래프에서 임의의 �
 
 
 
-## 알고리즘 동작
+## 기본 로직
 
 1. 임의의 정점 v를 선택합니다.
 2. 길이가 정점의 개수인 리스트 costs를 생성합니다. 
@@ -48,7 +48,7 @@ def solution(n, road, k):
 
     while heap:
         c, v = heapq.heappop(heap)
-        if c < costs[v]:
+        if costs[v] < c:
             continue
         for u in range(n):
             if graph[v][u] == float('inf'):

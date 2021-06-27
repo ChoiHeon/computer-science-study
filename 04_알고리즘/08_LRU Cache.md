@@ -1,4 +1,4 @@
-# LRU Cache
+# 알고리즘 - LRU Cache
 
 LRU(Least Recently Used) 알고리즘은 캐쉬에서 메모리를 다루기 위한 알고리즘 중 하나로 가장 최근에 사용한 적이 없는 알고리즘을 캐쉬에서 제거하는 알고리즘입니다.
 
