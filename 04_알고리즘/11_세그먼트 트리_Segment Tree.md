@@ -8,7 +8,7 @@
   * 배열로 구현시 메모리를 효율적으로 사용할 수 있습니다.
   * 아래의 내용은 배열로 구현한 세그먼트 트리에 대한 내용입니다.
 
-
+<br>
 
 ### 세그먼트 트리 크기
 
@@ -20,7 +20,7 @@
 
 	> 세그먼트 트리의 크기 = N보다 큰 2<sup>K</sup> 중 최소 값 = 2<sup>H + 1</sup>
 
-
+<br>
 
 ### 세그먼트 트리 생성
 
@@ -49,7 +49,7 @@ int init(int* arr, int* tree, int index, int start, int end) {
 }
 ```
 
-
+<br>
 
 ### 갱신
 
@@ -73,7 +73,7 @@ void update(int* tree, int node, int start, int end, int index, int diff) {
 }
 ```
 
-
+<br>
 
 ### 부분합
 
@@ -101,7 +101,7 @@ int sum(int* t, int node, int start, int end, int left, int right) {
 }
 ```
 
-
+<br>
 
 ### Example
 

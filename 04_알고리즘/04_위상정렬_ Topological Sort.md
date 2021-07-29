@@ -1,4 +1,4 @@
-# 알고리즘 - Topological Sort
+# Topological Sort
 
 위상정렬은 어떠한 작업의 선후가 주어질 때, 작업의 순서를 정해주는 알고리즘입니다. 일반적으로 그래프에 사용하며 그래프는 DAG(Directed Acycle Graph, 사이클이 없는 방향 그래프)를 만족해야 합니다.
 
