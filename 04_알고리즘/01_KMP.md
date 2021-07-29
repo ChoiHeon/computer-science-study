@@ -91,20 +91,58 @@ LPS를 탐색한 후, P와 일치하는 단어를 찾기위해 아래의 과정�
 
 위의 과정을 아래의 코드로 작성이 가능합니다.
 
+**[Python]**
+
 ``` python
-def KMP (s, t):
+def KMP (s, p):
     i = 0
-    t = lps(t)
+    t = lps(p)
     
     while i < len(s) - len(p):
         if s[i] != p[0]:
             i += 1
         for j in range(len(P)):
             if s[i+j] != p[j]:
-                i += (j - t[j])
+                i += (1 if j == 0 else (j - t[j]))
                 break
-       	else:
+       	else: # 탐색 성공
             i += 1
+            j = t[-1]
+```
+
+<br>
+
+위의 코드는 패턴과 일치하는 문자열 탐색에 성공했을 때, 즉 t[-1]를 활용하지 않는 코드입니다.
+다음은 위의 코드를 개선한, 성능이 더 좋은 코드입니다.
+
+**[C++]**
+
+```c++
+string s;
+string p;
+
+int n = s.length();
+int m = p.length();
+int lps[MAX];
+
+int j = 0;
+
+for (int i = 0; i < n; i++) {
+    // while 문을 통해서 최대한 빠르게 확인할 필요가 없는 부분을 스킵합니다.
+    while (j > 0 && s[i] != p[j])
+        j = lps[j - 1];
+    
+    // while 문을 빠져나왔다는 것은 일치하는 접두사 & 접미사가 있거나 
+    // s[i] == p[j]가 참인 경우입니다.
+    // 따라서 아래 코드에서 s[i] == p[j]가 참인 경우에 대한 처리를 해주어야 합니다.
+    
+    if (s[i] == p[j]) {
+        j++;
+        
+        if (j == m) // 탐색 성공
+            j = lps[j - 1];
+    }
+}
 ```
 
 <br>
