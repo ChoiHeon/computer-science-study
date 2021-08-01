@@ -39,13 +39,17 @@
   > 자식 노드2 = index * 2 + 1
 
 ```c++
-int init(int* arr, int* tree, int index, int start, int end) {
-	if (start == end)
-		return tree[index] = arr[start];
+/*
+node = 세그먼트 트리의 노드
+left, right = 현재 노드가 가리키는 배열의 범위
+*/
+int init(int node, int left, int right) {
+	if (left == right)
+		return tree[node] = arr[left];
 
-	int mid = (start + end) / 2;
-	return tree[index] = init(arr, tree, index * 2, start, mid) +
-						 init(arr, tree, index * 2 + 1, mid + 1, end);
+	int mid = (left + right) / 2;
+	
+	return tree[node] = init(node * 2, left, mid) + init(node * 2 + 1, mid + 1, right);
 }
 ```
 
@@ -55,20 +59,26 @@ int init(int* arr, int* tree, int index, int start, int end) {
 
 * 루트 노드부터 시작해 목표 인덱스까지 변경합니다.
 * 기존의 값을 대체할 값을 인자로 넣는 것이 아닌, 두 값의 차이를 인자로 넣습니다.
+* **기존의 값을 알아야 하므로 갱신시 배열의 값도 변경해야 합니다.**
 
 ```c++
-// node: 현재 노드의 번호. 처음 호출할 때 1을 인자로 넣습니다.
-// index: 목표 인덱스 (바꾸고자 하는 인덱스)
-void update(int* tree, int node, int start, int end, int index, int diff) {
-	if (!(start <= index && index <= end))
+/*
+node = 세그먼트 트리의 노드
+left, right = 현재 노드가 가리키는 배열의 범위
+index = 배열의 값을 변경할 인덱스
+diff = 변경할 값 - 기존의 겂
+*/
+void update(int node, int left, int right, int index, int diff) {
+	if (index < left || right < index)
 		return;
 
 	tree[node] += diff;
 
 	if (left != right) {
-		int mid = (start + end) / 2;
-		update(tree, node * 2, start, mid, index, diff);
-		update(tree, node * 2 + 1, mid + 1, end, index, diff);
+		int mid = (left + right) / 2;
+		
+		update(node * 2, left, mid, index, diff);
+		update(node * 2 + 1, mid + 1, right, index, diff);
 	}
 }
 ```
@@ -79,25 +89,31 @@ void update(int* tree, int node, int start, int end, int index, int diff) {
 
 * 세그먼트 트리를 구현한 이유입니다.
 * 합을 구하는 과정은 4가지로 나눌 수 있습니다. 
-* 현재 노드가 가리키는 범위를 [start, end], 구하고자 하는 합의 범위를 [left, right]라고 가정합니다.
-  1. [left, right]와 [start, end]가 겹쳐지지 않는 경우
-  2. [left, right]가 [start, end]를 포함하는 경우
-  3. [start, end]가 [left, right]를 포함하는 경우
+* 현재 노드가 가리키는 범위를 [left, right], 구하고자 하는 합의 범위를 [stasrt, end]라고 가정합니다.
+  1. [start, end]와 [left, right]가 겹쳐지지 않는 경우
+  2. [start, end]가 [left, right]를 포함하는 경우
+  3. [left, start]가 [start, end]를 포함하는 경우
   4. (1) (2) (3)을 제외한, [left, right]와 [start, end]가 일부 겹쳐져 있는 경우
 
 ```c++
-int sum(int* t, int node, int start, int end, int left, int right) {
-    // 1. [left, right]와 [start, end]가 겹쳐지지 않는 경우
-    if (left > end || right < start)
-        return 0;
-    
-    // 2. [left, right]가 [start, end]를 포함하는 경우
-    if (left <= start && end <= right)
-        return tree[node];
-    
-    int mid = (start + end) / 2;
-    return sum(tree, node * 2, start, mid, left, right) + 
-           sum(tree, node * 2 + 1, mid + 1, end, left, right);
+/*
+node = 세그먼트 트리의 노드
+left, right = 현재 노드가 가리키는 배열의 범위
+start, end = 합을 구하려는 배열의 범위
+*/
+int sum(int node, int left, int right, int start, int end) {
+    // (1)
+	if (end < left || right < start)
+		return 0LL;
+
+    // (2)
+	if (start <= left && right <= end)
+		return tree[node];
+
+	int mid = (left + right) / 2;
+	
+    // (3) (4)
+	return sum(node * 2, left, mid, start, end) + sum(node * 2 + 1, mid + 1, right, start, end);
 }
 ```
 
@@ -105,62 +121,97 @@ int sum(int* t, int node, int start, int end, int left, int right) {
 
 ### Example
 
+문제: https://www.acmicpc.net/problem/2042
+
 ```c++
 #include <iostream>
 
 using namespace std;
+typedef long long ll;
 
-int init(int* arr, int* tree, int index, int start, int end) {
-	if (start == end)
-		return tree[index] = arr[start];
+const int MAX_N = 1000000;
+const int TREE_SIZE = (1 << (20 + 1)) + 1; // 20 = ceil(log2(MAX_N))
 
-	int mid = (start + end) / 2;
-	return tree[index] = init(arr, tree, index * 2, start, mid) +
-						init(arr, tree, index * 2 + 1, mid + 1, end);
+int n, m, k;
+ll arr[MAX_N];		// 시작 인덱스 = 0
+ll tree[TREE_SIZE];	// 시작 인덱스 = 1
+
+
+/*
+node = 세그먼트 트리의 노드
+left, right = 현재 노드가 가리키는 배열의 범위
+*/
+ll init(int node, int left, int right) {
+	if (left == right)
+		return tree[node] = arr[left];
+
+	int mid = (left + right) / 2;
+	
+	return tree[node] = init(node * 2, left, mid) + init(node * 2 + 1, mid + 1, right);
 }
 
-void update(int* tree, int node, int start, int end, int index, int diff) {
-	if (!(start <= index && index <= end))
+
+/*
+node = 세그먼트 트리의 노드
+left, right = 현재 노드가 가리키는 배열의 범위
+index = 배열의 값을 변경할 인덱스
+diff = 변경할 값 - 기존의 값
+*/
+void update(int node, int left, int right, int index, ll diff) {
+	if (index < left || right < index)
 		return;
 
 	tree[node] += diff;
 
 	if (left != right) {
-		int mid = (start + end) / 2;
-		update(tree, node * 2, start, mid, index, diff);
-		update(tree, node * 2 + 1, mid + 1, end, index, diff);
+		int mid = (left + right) / 2;
+		
+		update(node * 2, left, mid, index, diff);
+		update(node * 2 + 1, mid + 1, right, index, diff);
 	}
 }
 
-int sum(int* tree, int node, int start, int end, int left, int right) {
-	// 1. [left, right]와 [start, end]가 겹쳐지지 않는 경우
-	if (left > end || right < start)
-		return 0;
 
-	// 2. [left, right]가 [start, end]를 포함하는 경우
-	if (left <= start && end <= right)
+/*
+node = 세그먼트 트리의 노드
+left, right = 현재 노드가 가리키는 배열의 범위
+start, end = 합을 구하려는 배열의 범위
+*/
+ll sum(int node, int left, int right, int start, int end) {
+	if (end < left || right < start)
+		return 0LL;
+
+	if (start <= left && right <= end)
 		return tree[node];
 
-	int mid = (start + end) / 2;
-	return sum(tree, node * 2, start, mid, left, right) +
-		sum(tree, node * 2 + 1, mid + 1, end, left, right);
+	int mid = (left + right) / 2;
+
+	return sum(node * 2, left, mid, start, end) + sum(node * 2 + 1, mid + 1, right, start, end);
 }
 
+
 int main() {
-	int arr[20];
-	
-	for (int i = 0; i < 20; i++)
-		arr[i] = i;
+	scanf("%d %d %d", &n, &m, &k);
 
-	int h = (int)ceil(log2(20));
-	int size = 1 << (h + 1);
-	int* tree = new int[size + 1];
+	for (int i = 0; i < n; i++) 
+		scanf("%lld", &arr[i]);
 
-	init(arr, tree, 1, 0, 19);
-	cout << sum(tree, 1, 0, 19, 0, 19) << endl;
+	init(1, 0, n - 1);
 
-	delete[] tree;
+	int t = m + k;
+	int a, b;
+	ll c;
 
+	while (t--) {
+		scanf("%d %d %lld", &a, &b, &c);
+
+		if (a == 1) {
+			update(1, 0, n - 1, b - 1, c - arr[b - 1]);
+			arr[b - 1] = c;
+		}
+		else
+			printf("%lld\n", sum(1, 0, n - 1, b - 1, c - 1));
+	}
 
 	return 0;
 }
