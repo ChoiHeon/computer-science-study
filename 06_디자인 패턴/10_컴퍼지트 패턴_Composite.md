@@ -54,7 +54,7 @@ class Emplyee {
 ``` java
 public class CompositePatternDemo {
     public static void main(String[] args) {
-        Employee CEO = new Employee("John","CEO", 30000);
+       Employee CEO = new Employee("John","CEO", 30000);
 
       Employee headSales = new Employee("Robert","Head Sales", 20000);
 

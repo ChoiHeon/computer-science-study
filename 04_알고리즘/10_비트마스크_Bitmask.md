@@ -66,7 +66,7 @@ int G = A ^ B;
 int bitCount(int A) {
     if (A == 0)
         return 0;
-    return (A % 2) + bitCount(A / 2);
+    return (A % 2) + bitCount(A >> 1);
 }
 ```
 

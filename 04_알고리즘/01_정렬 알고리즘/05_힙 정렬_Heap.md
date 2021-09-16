@@ -178,3 +178,54 @@ int main() {
 
 * 정렬 시작시 임시로 힙 배열을 생성합니다.
 * 함수 종료시 힙 배열 메모리를 해제합니다.
+
+**[임시 배열을 사용하지 않은 힙 정렬]**
+
+```c++
+void heapSort(vector<int>& a) { // 오름차순 정렬
+	int n = a.size();
+	
+	// create map heap tree
+	for (int i = 1; i < n; i++) {
+		int c = i;
+		int p = (i - 1) >> 1;
+
+		while (c) {
+			if (a[c] > a[p]) 
+				swap(a[c], a[p]);
+			else
+				break;
+
+			c = p;
+			p = (c - 1) >> 1;
+		}
+	}
+
+	// erase max heap 
+	for (int i = n - 1; i > 0; --i) {
+		swap(a[0], a[i]);
+
+		int p = 0;
+		int c1 = p * 2 + 1;
+		int c2 = p * 2 + 2;
+
+		while (c1 < i) {
+			if (c2 < i) {
+				if (a[c1] > a[c2])
+					swap(c1, c2);
+			}
+			else
+				c2 = c1;
+	
+			if (a[p] >= a[c2])
+				break;
+			
+			swap(a[p], a[c2]);
+			p = c2;
+			c1 = p * 2 + 1;
+			c2 = p * 2 + 2;
+		}
+	}
+}
+```
+

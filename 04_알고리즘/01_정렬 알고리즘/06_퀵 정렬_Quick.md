@@ -67,6 +67,8 @@ def quick_sort(arr, left, right):
             L += 1
             R -= 1
 
+	print(arr)
+            
     if left < R:
         quick_sort(arr, left, R)
     if L < right:
