@@ -96,7 +96,7 @@ void init1(int prev, int current) {
 		if (child == prev)
 			continue;
 
-		parent[child][0] = current;
+		parent[child][0] = current;	
 		init1(current, child);
 	}
 }
