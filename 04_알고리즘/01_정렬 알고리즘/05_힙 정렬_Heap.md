@@ -6,6 +6,13 @@
 
 <br>
 
+## 특징
+
+* 불안정한 정렬입니다.
+  * 키의 값이 같은 요소의 순서가 정렬 후와 일치하는 것을 보장하지 않습니다.
+
+
+
 ## 기본 로직
 
 다음은 배열을 오름차순으로 정렬하는 방법입니다.
@@ -184,17 +191,14 @@ int main() {
 ```c++
 void heapSort(vector<int>& a) { // 오름차순 정렬
 	int n = a.size();
-	
+
 	// create map heap tree
 	for (int i = 1; i < n; i++) {
 		int c = i;
 		int p = (i - 1) >> 1;
 
-		while (c) {
-			if (a[c] > a[p]) 
-				swap(a[c], a[p]);
-			else
-				break;
+		while (c && a[c] > a[p]) {
+			swap(a[c], a[p]);
 
 			c = p;
 			p = (c - 1) >> 1;
@@ -210,18 +214,14 @@ void heapSort(vector<int>& a) { // 오름차순 정렬
 		int c2 = p * 2 + 2;
 
 		while (c1 < i) {
-			if (c2 < i) {
-				if (a[c1] > a[c2])
-					swap(c1, c2);
-			}
-			else
-				c2 = c1;
-	
-			if (a[p] >= a[c2])
-				break;
-			
-			swap(a[p], a[c2]);
-			p = c2;
+			if (c2 < i && a[c1] < a[c2])
+				c1 = c2;  // a[c1] > a[c2]가 되도록 값을 변경
+
+			if (a[p] >= a[c1])
+				break;  // 힙의 구조를 만족하면 반복문 종료
+
+			swap(a[p], a[c1]);
+			p = c1;
 			c1 = p * 2 + 1;
 			c2 = p * 2 + 2;
 		}

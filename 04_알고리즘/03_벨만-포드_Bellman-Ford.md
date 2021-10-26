@@ -70,8 +70,6 @@
 
 문제 출처: https://www.acmicpc.net/problem/1916
 
-<br>
-
 ``` python
 n = int(input())
 m = int(input())
@@ -90,7 +88,7 @@ for _ in range(n-1):
     for v in range(n):
         for u, c in edges[v]:
             dist[u] = min(dist[u], dist[v]+c)
-    print(dist)
+
 
 # 음수 사이클 존재 확인
 for v in range(n):

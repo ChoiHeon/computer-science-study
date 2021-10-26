@@ -2,7 +2,7 @@
 
 **프로토콜**은 상호 간에 정의한 규칙을 의미하며, 특정 기기 간에 데이터를 주고 받기 위해 정의되었습니다. 
 
-**HTTP 프로토콜** 은 상태가 없는(stateless) 프로토콜로서 데이터를 주고 받기 위한 각 데이터 요청이 서로 독립되어 있습니다. 즉, 이전 데이터 요청과 현재 데이터 요청은 서로 연관이 없습니다.
+**HTTP 프로토콜**은 인터넷 상에서 데이터를 주고 받기 위한 프로토콜입니다. 상태가 없는(stateless) 프로토콜로서 데이터를 주고 받기 위한 각 데이터 요청이 서로 독립되어 있습니다. 즉, 이전 데이터 요청과 현재 데이터 요청은 서로 연관이 없습니다.
 
 <br>
 
@@ -31,7 +31,7 @@
 ## HTTP URL 구조
 
 * protocol + host + port + resource path + query
-* ex) http://wwwdomain.com:1234/path/to/resource?a=b&x=y
+* ex) http://www.domain.com:1234/path/to/resource?a=b&x=y
 
 <br>
 

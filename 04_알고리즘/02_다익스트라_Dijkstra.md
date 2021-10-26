@@ -29,7 +29,7 @@ Dijkstra 알고리즘은 음의 가중치가 없는 그래프에서 임의의 �
 
 <br>
 
-해당 문제는 1번 정점에서 모든 정점까지의 최단거리를 알아낸 다음, 주어진 값 이하의 최단거리의 개수를 찾는 문제입니다. 벨만-포드 알고리즘도 가능하지만, <u>시간복잡도에서 이득을 얻을 수 있기 때문에</u> Dijkstra 알고리즘의 사용이 가장 적절합니다.
+이 문제는 1번 정점에서 모든 정점까지의 최단거리를 알아낸 다음, 주어진 값 이하의 최단거리의 개수를 찾는 문제입니다. 벨만-포드 알고리즘도 가능하지만, <u>시간복잡도에서 이득을 얻을 수 있기 때문에</u> Dijkstra 알고리즘의 사용이 가장 적절합니다.
 
 ```python
 import heapq
@@ -55,7 +55,7 @@ def solution(n, road, k):
                 continue
             if c + graph[v][u] < costs[u]:
                 costs[u] = c + graph[v][u]
-                heapq.heappush(heap, [costs[u], u]) 
+                heapq.heappush(heap, [costs[u], u])s
     # ----------------------------------------
 
     return len([*filter(lambda e: e <= k, heap)])

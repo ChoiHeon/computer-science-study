@@ -49,6 +49,8 @@
 
 # Example
 
+**[Python]**
+
 ```python
 def quick_sort(arr, left, right):
     L = left
@@ -66,8 +68,6 @@ def quick_sort(arr, left, right):
                 arr[L], arr[R] = arr[R], arr[L]
             L += 1
             R -= 1
-
-	print(arr)
             
     if left < R:
         quick_sort(arr, left, R)
@@ -78,5 +78,32 @@ def quick_sort(arr, left, right):
 arr = [10, 2, 9, 30, 4, 1, 50]
 quick_sort(arr, 0, len(arr) - 1)
 print(arr)  # expected output: [1, 2, 4, 9, 10, 30, 50]
+```
+
+<br>
+
+**[C++]**
+
+```c++
+void quick_sort(vector<int>& a, int left, int right) {
+	int i = left;
+	int j = right;
+	int pivot = a[(i + j) / 2];
+
+	while (i <= j) {
+		while (a[i] < pivot) ++i;
+		while (pivot < a[j]) --j;
+
+		if (i <= j) {
+				swap(a[i], a[j]);
+
+			++i;
+			--j;
+		}
+	}
+
+	if (left < j)	quick_sort(a, left, j);
+	if (i < right)	quick_sort(a, i, right);
+}
 ```
 
